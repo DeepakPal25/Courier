@@ -60,7 +60,7 @@ public struct AuthMiddleware: Middleware {
         self.scheme = scheme
     }
 
-    public func intercept(_ request: URLRequest, next: HTTPHandler) async throws -> HTTPResponse {
+    public func intercept(_ request: URLRequest, next: @escaping HTTPHandler) async throws -> HTTPResponse {
         let token = try await tokens.validToken()
         let response = try await next(authorize(request, with: token))
         guard response.statusCode == 401 else { return response }

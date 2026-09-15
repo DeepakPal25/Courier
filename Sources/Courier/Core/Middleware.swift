@@ -3,7 +3,7 @@ import Foundation
 public typealias HTTPHandler = @Sendable (URLRequest) async throws -> HTTPResponse
 
 public protocol Middleware: Sendable {
-    func intercept(_ request: URLRequest, next: HTTPHandler) async throws -> HTTPResponse
+    func intercept(_ request: URLRequest, next: @escaping HTTPHandler) async throws -> HTTPResponse
 }
 
 // Handy when you need a one-off middleware and don't want to define a whole type.
@@ -20,7 +20,7 @@ public struct ClosureMiddleware: Middleware {
         self.body = body
     }
 
-    public func intercept(_ request: URLRequest, next: HTTPHandler) async throws -> HTTPResponse {
+    public func intercept(_ request: URLRequest, next: @escaping HTTPHandler) async throws -> HTTPResponse {
         try await body(request, next)
     }
 }

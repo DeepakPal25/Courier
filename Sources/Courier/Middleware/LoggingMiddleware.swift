@@ -20,7 +20,7 @@ public struct LoggingMiddleware: Middleware {
         self.log = log
     }
 
-    public func intercept(_ request: URLRequest, next: HTTPHandler) async throws -> HTTPResponse {
+    public func intercept(_ request: URLRequest, next: @escaping HTTPHandler) async throws -> HTTPResponse {
         let method = request.httpMethod ?? "GET"
         let url = request.url?.absoluteString ?? "<no url>"
         log("→ \(method) \(url)")

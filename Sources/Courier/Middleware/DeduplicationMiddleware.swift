@@ -16,7 +16,7 @@ public actor DeduplicationMiddleware: Middleware {
         self.methods = methods
     }
 
-    public func intercept(_ request: URLRequest, next: HTTPHandler) async throws -> HTTPResponse {
+    public func intercept(_ request: URLRequest, next: @escaping HTTPHandler) async throws -> HTTPResponse {
         guard methods.contains(HTTPMethod(rawValue: request.httpMethod ?? "GET")) else {
             return try await next(request)
         }

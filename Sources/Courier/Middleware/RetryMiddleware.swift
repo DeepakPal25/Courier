@@ -94,7 +94,7 @@ public struct RetryMiddleware: Middleware {
         self.sleep = sleep
     }
 
-    public func intercept(_ request: URLRequest, next: HTTPHandler) async throws -> HTTPResponse {
+    public func intercept(_ request: URLRequest, next: @escaping HTTPHandler) async throws -> HTTPResponse {
         let method = HTTPMethod(rawValue: request.httpMethod ?? "GET")
         guard policy.canRetry(method), policy.maxAttempts > 1 else {
             return try await next(request)
